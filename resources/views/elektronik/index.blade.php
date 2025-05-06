@@ -18,8 +18,16 @@
 
         <!-- Daftar Elektronik dalam Grid -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            @forelse ($books as $book)
-                <x-card :book="$book" />
+            @forelse ($elektroniks as $elektronik)
+                <div class="bg-white rounded shadow p-4 flex flex-col">
+                    <img src="{{ $elektronik['gambar'] }}" alt="{{ $elektronik['judul'] }}" class="h-40 w-full object-cover rounded mb-2">
+                    <h2 class="text-lg font-semibold mb-1">{{ $elektronik['judul'] }}</h2>
+                    <p class="text-sm text-gray-600 mb-2">Pengirim: {{ $elektronik['nama_pengirim'] }}</p>
+                    <a href="{{ route('elektronik.detail', ['id' => $loop->index]) }}"
+                       class="mt-auto bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e58a3f]">
+                        Lihat Detail →
+                    </a>
+                </div>
             @empty
                 <p class="text-center w-full">Elektronik tidak ditemukan.</p>
             @endforelse

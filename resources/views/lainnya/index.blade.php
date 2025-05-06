@@ -16,10 +16,18 @@
             </div>
         </form>
 
-        <!-- Daftar Elektronik dalam Grid -->
+        <!-- Daftar Barang Lainnya dalam Grid -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            @forelse ($books as $book)
-                <x-card :book="$book" />
+            @forelse ($lainnyas as $index => $lainnya)
+                <div class="bg-white rounded shadow p-4 flex flex-col">
+                    <img src="{{ $lainnya['gambar'] }}" alt="{{ $lainnya['judul'] }}" class="h-40 w-full object-cover rounded mb-2">
+                    <h2 class="text-lg font-semibold mb-1">{{ $lainnya['judul'] }}</h2>
+                    <p class="text-sm text-gray-600 mb-2">Pengirim: {{ $lainnya['nama_pengirim'] }}</p>
+                    <a href="{{ route('lainnya.detail', ['id' => $index]) }}"
+                       class="mt-auto bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e58a3f]">
+                        Lihat Detail →
+                    </a>
+                </div>
             @empty
                 <p class="text-center w-full">Barang tidak ditemukan.</p>
             @endforelse

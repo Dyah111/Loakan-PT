@@ -8,25 +8,116 @@ class BukuController extends Controller
 {
     public function index(Request $request)
     {
-        // Data Dummy Buku
+        // Data Dummy Elektronik
         $books = [
-            ['judul' => 'Laskar Pelangi', 'penulis' => 'Andrea Hirata', 'harga' => 30000, 'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg'],
-            ['judul' => 'Bumi', 'penulis' => 'Tere Liye', 'harga' => 25000, 'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg'],
-            ['judul' => 'Negeri 5 Menara', 'penulis' => 'Ahmad Fuadi', 'harga' => 28000, 'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg'],
-            ['judul' => 'Rich Dad Poor Dad', 'penulis' => 'Robert Kiyosaki', 'harga' => 35000, 'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg'],
-            ['judul' => 'Filosofi Teras', 'penulis' => 'Henry Manampiring', 'harga' => 27000, 'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg'],
+            [
+                'judul' => 'Semua Akan Terlihat',
+                'penulis' => 'Hanny Bunny',
+                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
+                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
+                'nama_pengirim' => 'Bambang',
+                'telepon' => '081234567890'
+            ],
+            [
+                'judul' => 'baju trendi',
+                'penulis' => 'Hanny Bunny',
+                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
+                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
+                'nama_pengirim' => 'Bambang',
+                'telepon' => '081234567890'
+            ],
+            [
+                'judul' => 'baju trendi',
+                'penulis' => 'Hanny Bunny',
+                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
+                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
+                'nama_pengirim' => 'Bambang',
+                'telepon' => '081234567890'
+            ],
+            [
+                'judul' => 'baju trendi',
+                'penulis' => 'Hanny Bunny',
+                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
+                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
+                'nama_pengirim' => 'Bambang',
+                'telepon' => '081234567890'
+            ],
+            [
+                'judul' => 'baju trendi',
+                'penulis' => 'Hanny Bunny',
+                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
+                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
+                'nama_pengirim' => 'Bambang',
+                'telepon' => '081234567890'
+            ],
         ];
 
-        // Ambil input search dari user
         $search = $request->query('search');
 
         if ($search) {
-            // Filter buku berdasarkan judul
             $books = array_filter($books, function ($book) use ($search) {
                 return stripos($book['judul'], $search) !== false;
             });
         }
 
-        return view('buku.index', compact('books', 'search'));
+        return view('buku.index', [
+            'books' => $books,
+            'search' => $search
+        ]);
+    }
+
+    public function detail($id)
+    {
+        // Data Dummy harus sama seperti di index
+        $books = [ 
+            [
+                'judul' => 'Semua Akan Terlihat',
+                'penulis' => 'Hanny Bunny',
+                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
+                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
+                'nama_pengirim' => 'Bambang',
+                'telepon' => '081234567890'
+            ],
+            [
+                'judul' => 'baju trendi',
+                'penulis' => 'Hanny Bunny',
+                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
+                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
+                'nama_pengirim' => 'Bambang',
+                'telepon' => '081234567890'
+            ],
+            [
+                'judul' => 'baju trendi',
+                'penulis' => 'Hanny Bunny',
+                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
+                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
+                'nama_pengirim' => 'Bambang',
+                'telepon' => '081234567890'
+            ],
+            [
+                'judul' => 'baju trendi',
+                'penulis' => 'Hanny Bunny',
+                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
+                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
+                'nama_pengirim' => 'Bambang',
+                'telepon' => '081234567890'
+            ],
+            [
+                'judul' => 'baju trendi',
+                'penulis' => 'Hanny Bunny',
+                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
+                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
+                'nama_pengirim' => 'Bambang',
+                'telepon' => '081234567890'
+            ],
+         ];
+
+        if (!isset($books[$id])) {
+            abort(404);
+        }
+
+        $produk = $books[$id];
+
+        return view('buku.detail', compact('produk'));
     }
 }
