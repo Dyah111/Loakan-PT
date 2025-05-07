@@ -16,14 +16,18 @@
             </div>
         </form>
 
+        <a href="{{ route('lainnya.create') }}" class="mb-4 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            + Tambah Barang
+        </a>
+
         <!-- Daftar Barang Lainnya dalam Grid -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             @forelse ($lainnyas as $index => $lainnya)
                 <div class="bg-white rounded shadow p-4 flex flex-col">
                     <img src="{{ $lainnya['gambar'] }}" alt="{{ $lainnya['judul'] }}" class="h-40 w-full object-cover rounded mb-2">
                     <h2 class="text-lg font-semibold mb-1">{{ $lainnya['judul'] }}</h2>
-                    <p class="text-sm text-gray-600 mb-2">Pengirim: {{ $lainnya['nama_pengirim'] }}</p>
-                    <a href="{{ route('lainnya.detail', ['id' => $index]) }}"
+                    <p class="text-sm text-gray-600 mb-2">Pengirim: {{ $lainnya->user->name }}</p>
+                    <a href="{{ route('lainnya.detail', ['id' => $lainnya['id']]) }}"
                        class="mt-auto bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e58a3f]">
                         Lihat Detail →
                     </a>

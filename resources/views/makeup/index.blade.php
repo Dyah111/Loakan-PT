@@ -16,14 +16,18 @@
             </div>
         </form>
 
+        <a href="{{ route('makeup.create') }}" class="mb-4 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            + Tambah Barang
+        </a>
+
         <!-- Daftar Barang Lainnya dalam Grid -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            @forelse ($makeups as $index => $makeup)
+            @forelse ($make_ups as $index => $makeup)
                 <div class="bg-white rounded shadow p-4 flex flex-col">
                     <img src="{{ $makeup['gambar'] }}" alt="{{ $makeup['judul'] }}" class="h-40 w-full object-cover rounded mb-2">
                     <h2 class="text-lg font-semibold mb-1">{{ $makeup['judul'] }}</h2>
-                    <p class="text-sm text-gray-600 mb-2">Pengirim: {{ $makeup['nama_pengirim'] }}</p>
-                    <a href="{{ route('makeup.detail', ['id' => $index]) }}"
+                    <p class="text-sm text-gray-600 mb-2">Pengirim: {{ $makeup->user->name }}</p>
+                    <a href="{{ route('makeup.detail', ['id' => $makeup['id']]) }}"
                        class="mt-auto bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e58a3f]">
                         Lihat Detail →
                     </a>

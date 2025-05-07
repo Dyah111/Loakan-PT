@@ -2,122 +2,76 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BukuController extends Controller
 {
     public function index(Request $request)
     {
-        // Data Dummy Elektronik
-        $books = [
-            [
-                'judul' => 'Semua Akan Terlihat',
-                'penulis' => 'Hanny Bunny',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
-                'nama_pengirim' => 'Bambang',
-                'telepon' => '081234567890'
-            ],
-            [
-                'judul' => 'baju trendi',
-                'penulis' => 'Hanny Bunny',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
-                'nama_pengirim' => 'Bambang',
-                'telepon' => '081234567890'
-            ],
-            [
-                'judul' => 'baju trendi',
-                'penulis' => 'Hanny Bunny',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
-                'nama_pengirim' => 'Bambang',
-                'telepon' => '081234567890'
-            ],
-            [
-                'judul' => 'baju trendi',
-                'penulis' => 'Hanny Bunny',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
-                'nama_pengirim' => 'Bambang',
-                'telepon' => '081234567890'
-            ],
-            [
-                'judul' => 'baju trendi',
-                'penulis' => 'Hanny Bunny',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
-                'nama_pengirim' => 'Bambang',
-                'telepon' => '081234567890'
-            ],
-        ];
-
         $search = $request->query('search');
 
+        $query = Buku::query();
+
         if ($search) {
-            $books = array_filter($books, function ($book) use ($search) {
-                return stripos($book['judul'], $search) !== false;
-            });
+            $query->where('judul', 'like', '%' . $search . '%');
         }
 
+        $bukus = $query->get();
+
         return view('buku.index', [
-            'books' => $books,
+            'bukus' => $bukus,
             'search' => $search
         ]);
     }
 
     public function detail($id)
     {
-        // Data Dummy harus sama seperti di index
-        $books = [ 
-            [
-                'judul' => 'Semua Akan Terlihat',
-                'penulis' => 'Hanny Bunny',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
-                'nama_pengirim' => 'Bambang',
-                'telepon' => '081234567890'
-            ],
-            [
-                'judul' => 'baju trendi',
-                'penulis' => 'Hanny Bunny',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
-                'nama_pengirim' => 'Bambang',
-                'telepon' => '081234567890'
-            ],
-            [
-                'judul' => 'baju trendi',
-                'penulis' => 'Hanny Bunny',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
-                'nama_pengirim' => 'Bambang',
-                'telepon' => '081234567890'
-            ],
-            [
-                'judul' => 'baju trendi',
-                'penulis' => 'Hanny Bunny',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
-                'nama_pengirim' => 'Bambang',
-                'telepon' => '081234567890'
-            ],
-            [
-                'judul' => 'baju trendi',
-                'penulis' => 'Hanny Bunny',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Buku inspirasi kehidupan yang akan sangat relate dengan kehidupan kita',
-                'nama_pengirim' => 'Bambang',
-                'telepon' => '081234567890'
-            ],
-         ];
-
-        if (!isset($books[$id])) {
-            abort(404);
-        }
-
-        $produk = $books[$id];
+        $produk = Buku::findOrFail($id);
 
         return view('buku.detail', compact('produk'));
+    }
+
+    public function create()
+    {
+        return view('buku.create');
+    }
+
+    public function store(Request $request)
+    {
+
+        $validated = $request->validate([
+            'judul' => 'required|string|max:255',
+            'penulis' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'gambar' => 'nullable|url',
+            'nama_pengirim' => 'required|string|max:255',
+            'telepon' => 'required|string|max:20',
+        ]);
+
+        // Menambahkan user_id yang berasal dari user yang login
+        $validated['user_id'] = Auth::user()->id;
+
+        // Membuat buku baru dengan data yang sudah tervalidasi
+        Buku::create(attributes: $validated);
+
+        return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan!');
+    }
+
+
+    public function destroy($id)
+    {
+        $buku = Buku::findOrFail($id);
+
+        // Memastikan user yang login adalah pemilik postingan
+        if ($buku->user_id !== Auth::id()) {
+            abort(403, 'Kamu tidak punya akses untuk menghapus postingan ini.');
+        }
+
+        // Hapus postingan
+        $buku->delete();
+
+        return redirect()->route('buku.index')->with('success', 'Postingan berhasil dihapus.');
     }
 }

@@ -2,19 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Forum;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ForumController extends Controller
 {
     public function index()
     {
-        // Data dummy untuk ditampilkan
-        $forums = [
-            ['user' => 'Budi Santoso', 'time' => '2 jam yang lalu', 'message' => 'Saya punya beberapa pakaian bekas yang masih bagus. Ada yang berminat?', 'likes' => 15],
-            ['user' => 'Siti Rahayu', 'time' => '5 jam yang lalu', 'message' => 'Baru saja menemukan buku-buku lama di gudang. Masih dalam kondisi baik!', 'likes' => 10],
-            ['user' => 'Agus Wijaya', 'time' => '1 hari yang lalu', 'message' => 'Ada yang mencari laptop bekas? Saya punya beberapa yang masih berfungsi dengan baik.', 'likes' => 23],
-        ];
-
+        $forums = Forum::with('user')->latest()->get();
         return view('forum.index', compact('forums'));
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'message' => 'required|string',
+        ]);
+
+        $validated['user_id'] = Auth::id();
+        Forum::create($validated);
+
+        return redirect()->route('forum.index');
+    }
+
+    public function destroy($id)
+    {
+        $forum = Forum::findOrFail($id);
+        if ($forum->user_id !== Auth::id()) {
+            abort(403);
+        }
+        $forum->delete();
+        return redirect()->route('forum.index')->with('success', 'Postingan berhasil dihapus.');
     }
 }

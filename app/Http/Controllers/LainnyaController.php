@@ -2,58 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lainnya;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LainnyaController extends Controller
 {
     public function index(Request $request)
     {
-        // Data Dummy Elektronik
-        $lainnyas = [
-            [
-                'judul' => 'ayam',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'wiubdebdeiofoeo.',
-                'nama_pengirim' => 'Fajar A.',
-                'telepon' => '081234567890'
-            ],
-            [
-                'judul' => 'Komputer',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Komputer rakitan, cocok untuk pekerjaan kantor.',
-                'nama_pengirim' => 'Rina S.',
-                'telepon' => '082233445566'
-            ],
-            [
-                'judul' => 'Laptop',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Laptop second, Core i5, RAM 8GB, SSD 256GB.',
-                'nama_pengirim' => 'Andi T.',
-                'telepon' => '085677889900'
-            ],
-            [
-                'judul' => 'Kipas',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Kipas angin berdiri, hemat listrik.',
-                'nama_pengirim' => 'Siti N.',
-                'telepon' => '081111111111'
-            ],
-            [
-                'judul' => 'Headset',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Headset gaming dengan mikrofon, suara jernih.',
-                'nama_pengirim' => 'Budi K.',
-                'telepon' => '082222222222'
-            ],
-        ];
-
         $search = $request->query('search');
 
+        $query = Lainnya::query();
+
         if ($search) {
-            $lainnyas = array_filter($lainnyas, function ($book) use ($search) {
-                return stripos($book['judul'], $search) !== false;
-            });
+            $query->where('judul', 'like', '%' . $search . '%');
         }
+
+        $lainnyas = $query->get();
 
         return view('lainnya.index', [
             'lainnyas' => $lainnyas,
@@ -63,51 +28,48 @@ class LainnyaController extends Controller
 
     public function detail($id)
     {
-        // Data Dummy harus sama seperti di index
-        $lainnyas = [ 
-            [
-                'judul' => 'ayam',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'wiubdebdeiofoeo.',
-                'nama_pengirim' => 'Fajar A.',
-                'telepon' => '081234567890'
-            ],
-            [
-                'judul' => 'Komputer',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Komputer rakitan, cocok untuk pekerjaan kantor.',
-                'nama_pengirim' => 'Rina S.',
-                'telepon' => '082233445566'
-            ],
-            [
-                'judul' => 'Laptop',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Laptop second, Core i5, RAM 8GB, SSD 256GB.',
-                'nama_pengirim' => 'Andi T.',
-                'telepon' => '085677889900'
-            ],
-            [
-                'judul' => 'Kipas',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Kipas angin berdiri, hemat listrik.',
-                'nama_pengirim' => 'Siti N.',
-                'telepon' => '081111111111'
-            ],
-            [
-                'judul' => 'Headset',
-                'gambar' => 'https://i.pinimg.com/736x/8f/81/a4/8f81a4b35fba476ce1b0b6077de148a4.jpg',
-                'deskripsi' => 'Headset gaming dengan mikrofon, suara jernih.',
-                'nama_pengirim' => 'Budi K.',
-                'telepon' => '082222222222'
-            ],
-         ];
 
-        if (!isset($lainnyas[$id])) {
-            abort(404);
-        }
-
-        $produk = $lainnyas[$id];
+        $produk = Lainnya::findOrFail(id: $id);
 
         return view('lainnya.detail', compact('produk'));
+    }
+
+    public function create() {
+        return view('lainnya.create');
+    }
+
+    public function store(Request $request)
+    {
+
+        $validated = $request->validate([
+            'judul' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'gambar' => 'nullable|url',
+            'nama_pengirim' => 'required|string|max:255',
+            'telepon' => 'required|string|max:20',
+        ]);
+
+        // Menambahkan user_id yang berasal dari user yang login
+        $validated['user_id'] = Auth::user()->id;
+
+        // Membuat furnitur baru dengan data yang sudah tervalidasi
+        Lainnya::create(attributes: $validated);
+
+        return redirect()->route('lainnya.index')->with('success', 'Barang berhasil ditambahkan!');
+    }
+
+    public function destroy($id)
+    {
+        $lainnya = Lainnya::findOrFail($id);
+
+        // Memastikan user yang login adalah pemilik postingan
+        if ($lainnya->user_id !== Auth::id()) {
+            abort(403, 'Kamu tidak punya akses untuk menghapus postingan ini.');
+        }
+
+        // Hapus postingan
+        $lainnya->delete();
+
+        return redirect()->route('lainnya.index')->with('success', 'Postingan berhasil dihapus.');
     }
 }
