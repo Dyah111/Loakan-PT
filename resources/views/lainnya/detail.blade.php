@@ -12,11 +12,10 @@
                 <p class="text-gray-600 mb-6"><strong>Nomor Telepon:</strong> {{ $produk['telepon'] }}</p>
 
                 <button onclick="window.history.back()"
-                    class="inline-block bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e38a3f]">← Kembali ke Daftar
-                    lainnya</button>
+                    class="inline-block bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e38a3f]">← Kembali</button>
 
                 @auth
-                    @if (Auth::id() === $produk['user_id'])
+                    @if (Auth::id() === $produk['user_id'] || Auth::user()->is_admin == true)
                         <form action="{{ route('lainnya.destroy', ['id' => $produk['id']]) }}" method="POST" class="mt-4">
                             @csrf
                             @method('DELETE')

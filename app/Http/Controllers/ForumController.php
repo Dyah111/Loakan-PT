@@ -29,9 +29,7 @@ class ForumController extends Controller
     public function destroy($id)
     {
         $forum = Forum::findOrFail($id);
-        if ($forum->user_id !== Auth::id()) {
-            abort(403);
-        }
+        
         $forum->delete();
         return redirect()->route('forum.index')->with('success', 'Postingan berhasil dihapus.');
     }

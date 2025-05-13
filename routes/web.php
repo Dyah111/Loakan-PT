@@ -123,7 +123,7 @@ Route::get('/forum', [ForumController::class, 'index'])
 Route::post('/forum', [ForumController::class, 'store'])
     ->middleware(['auth', 'verified'])->name('forum.store');
 // Delete Forum
-Route::get('/forum/{id}', [ForumController::class, 'destroy'])
+Route::delete('/forum/{id}', [ForumController::class, 'destroy'])
     ->name('forum.destroy');
 
 

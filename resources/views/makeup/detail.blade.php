@@ -16,7 +16,7 @@
                     Make-Up</button>
 
                 @auth
-                    @if (Auth::id() === $produk['user_id'])
+                    @if (Auth::id() === $produk['user_id'] || Auth::user()->is_admin == true)
                         <form action="{{ route('makeup.destroy', ['id' => $produk['id']]) }}" method="POST" class="mt-4">
                             @csrf
                             @method('DELETE')

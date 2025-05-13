@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container py-4 border border-black p-4">
-        <h1 class="mb-4 text-center">Cari Barang Furnitur Bekas</h1>
+    <div class="container py-4 border border-black p-4 h-screen">
+        <h1 class="mb-4 text-center">Loakan Furnitur</h1>
 
         <!-- Form Pencarian -->
         <form action="{{ route('furnitur.index') }}" method="GET" class="mb-5 w-full max-w-lg mx-auto">

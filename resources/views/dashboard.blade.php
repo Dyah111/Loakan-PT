@@ -54,24 +54,48 @@
 
     <!-- Barang Loakan -->
     <h2 class="text-2xl font-bold mb-4 text-[#caa46c]">Barang Loakan</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 p-2">
-
+    <div class="flex gap-6 overflow-x-auto p-2 mb-10">
         @foreach($list as $item)
-            <div class="bg-white rounded-lg p-4 shadow flex flex-col items-center">
-                <div class="bg-gray-200 w-full h-32 flex items-center justify-center mb-4 overflow-hidden rounded">
-                    @if (isset($item['image']))
-                        <img src="{{ $item['image'] }}" alt="{{ $item['nama'] }}" class="w-full h-full object-cover">
-                    @else
-                        <span class="text-gray-400">No Image</span>
-                    @endif
-                </div>
-                <div class="font-bold text-center">{{ $item['nama'] }}</div>
-                <div class="mt-1 text-sm text-gray-600 text-center">
-                    <span class="bg-[#f0e5be] px-2 py-1 rounded">{{ $item['category'] }}</span>
-                </div>
-                <a href="{{ $item['linkwa'] }}" class="w-3/4 py-1 text-center bg-blue-500 text-white hover:bg-blue-600 rounded-md font-bold mt-4">View Detail</a>
+            <div class="bg-white rounded shadow p-4 flex-shrink-0 w-64">
+                <img src="{{ $item['gambar'] }}" alt="{{ $item['judul'] }}" class="h-40 w-full object-cover rounded mb-2">
+                <h2 class="text-lg font-semibold mb-1">{{ $item['judul'] }}</h2>
+                @if (!empty($item['penulis']))
+                    <p class="text-sm text-gray-600 mb-1">Penulis: {{ $item['penulis'] }}</p>
+                @endif
+                <p class="text-sm text-gray-600 mb-2">Pengirim: {{ $item['nama_pengirim'] }}</p>
+                @if ($item['category'] == 'buku')
+                    <a href="{{ route('buku.detail', ['id' => $item['id']]) }}"
+                        class="mt-auto bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e58a3f]">
+                        Lihat Detail →
+                    </a>
+                @elseif($item['category'] == 'makeup')
+                    <a href="{{ route('makeup.detail', ['id' => $item['id']]) }}"
+                        class="mt-auto bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e58a3f]">
+                        Lihat Detail →
+                    </a>
+                @elseif($item['category'] == 'elektronik')
+                    <a href="{{ route('elektronik.detail', ['id' => $item['id']]) }}"
+                        class="mt-auto bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e58a3f]">
+                        Lihat Detail →
+                    </a>
+                @elseif($item['category'] == 'furnitur')
+                    <a href="{{ route('furnitur.detail', ['id' => $item['id']]) }}"
+                        class="mt-auto bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e58a3f]">
+                        Lihat Detail →
+                    </a>
+                @elseif($item['category'] == 'lainnya')
+                    <a href="{{ route('lainnya.detail', ['id' => $item['id']]) }}"
+                        class="mt-auto bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e58a3f]">
+                        Lihat Detail →
+                    </a>
+                @elseif($item['category'] == 'pakaian')
+                    <a href="{{ route('pakaian.detail', ['id' => $item['id']]) }}"
+                        class="mt-auto bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e58a3f]">
+                        Lihat Detail →
+                    </a>
+                @endif
             </div>
-
         @endforeach
+
     </div>
 @endsection

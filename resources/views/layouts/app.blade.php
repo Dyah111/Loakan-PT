@@ -35,7 +35,7 @@
         <main>
             @yield('content')
         </main>
-        <footer class="bg-gray-800 text-white py-6 mt-10">
+        <footer class="bg-gray-800 text-white py-6">
             <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-sm">&copy; {{ date('Y') }} Your Company. All rights reserved.</p>
                 <div class="flex space-x-4 mt-4 md:mt-0">
