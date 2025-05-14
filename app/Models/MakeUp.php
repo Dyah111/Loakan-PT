@@ -13,8 +13,8 @@ class MakeUp extends Model
     protected $fillable = [
         'judul',
         'deskripsi',
-        'gambar',
         'nama_pengirim',
+        'gambar',
         'telepon',
         'user_id'
     ];

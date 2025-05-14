@@ -54,4 +54,8 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
+    public function likedForums()
+    {
+        return $this->belongsToMany(Forum::class, 'forum_likes')->withTimestamps();
+    }
 }

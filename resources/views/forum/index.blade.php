@@ -1,8 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="max-w-2xl mx-auto py-8 ">
-        <h2 class="text-2xl font-bold mb-4 text-[#caa46c]">Forum Diskusi</h2>
+    <div class="max-w-2xl mx-auto py-8 relative">
+
+        {{-- Tombol back --}}
+        <a href="{{ route('dashboard') }}"
+            class="absolute top-4 left-4 flex items-center justify-center w-12 h-12 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full text-3xl transition duration-200 shadow">
+            ←
+        </a>
+
+        <h2 class="text-2xl font-bold mb-4 text-[#caa46c] text-center">Forum Diskusi</h2>
 
         <div class="bg-white p-4 rounded shadow mb-6">
             <form action="{{ route('forum.store') }}" method="POST">
@@ -24,11 +31,20 @@
                         </svg>
                     </button>
 
-                    <div x-show="open" @click.away="open = false"
+                    <div x-show="open" x-cloak @click.away="open = false"
                         class="mt-2 w-40 bg-white border rounded shadow absolute right-0 z-10">
                         <ul class="text-sm text-gray-700">
-                            <li @click="alert('Laporan terkirim')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Laporkan
+                            <li>
+                                <a href="https://wa.me/6282229818657?text={{ urlencode('Halo, saya ingin melaporkan postingan forum dengan detail berikut:
+
+                            ID Forum: ' . $forum->id . '
+                            Nama Pengguna: ' . $forum->user->name . '
+                            Email Pengguna: ' . $forum->user->email) }}" target="_blank"
+                                    class="block px-4 py-2 hover:bg-gray-100 text-blue-600">
+                                    Laporkan
+                                </a>
                             </li>
+
                             @if ($forum->user_id === Auth::id() || Auth::user()->is_admin == true)
                                 <form action="{{ route('forum.destroy', $forum->id) }}" method="POST">
                                     @csrf
@@ -41,11 +57,25 @@
                     </div>
                 </div>
 
+                {{-- Isi forum --}}
                 <div class="font-bold">
-                    <a href="#" class="text-blue-600 hover:underline">{{ $forum->user->name }}</a>
+                    <a href="{{ route('forum.showProfile', ['id' => $forum->user->id]) }}"
+                        class="text-blue-600 hover:underline">{{ $forum->user->name }}</a>
                 </div>
                 <div class="text-sm text-gray-500">{{ $forum->created_at->diffForHumans() }}</div>
                 <p class="mt-2">{{ $forum->message }}</p>
+
+                {{-- Tombol Like --}}
+                <form action="{{ route('forum.like', $forum->id) }}" method="POST" class="mt-2 flex items-center gap-1">
+                    @csrf
+                    @if(!$forum->isLikedBy(auth()->user()))
+                        <button type="submit" class="text-red-500 hover:text-red-700">❤️</button>
+                    @else
+                        <span class="text-red-600">❤️</span>
+                    @endif
+                    <span class="text-gray-500">{{ $forum->likedByUsers()->count() }}</span>
+                </form>
+
             </div>
         @endforeach
     </div>

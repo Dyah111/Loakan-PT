@@ -44,8 +44,8 @@ class MakeUpController extends Controller
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'gambar' => 'nullable|url',
             'nama_pengirim' => 'required|string|max:255',
+            'gambar' => 'nullable|url',
             'telepon' => 'required|string|max:20',
         ]);
 
@@ -63,9 +63,9 @@ class MakeUpController extends Controller
         $makeup = MakeUp::findOrFail($id);
 
         // Memastikan user yang login adalah pemilik postingan
-        if ($makeup->user_id !== Auth::id()) {
-            abort(403, 'Kamu tidak punya akses untuk menghapus postingan ini.');
-        }
+        // if ($makeup->user_id !== Auth::id()) {
+        //     abort(403, 'Kamu tidak punya akses untuk menghapus postingan ini.');
+        // }
 
         // Hapus postingan
         $makeup->delete();

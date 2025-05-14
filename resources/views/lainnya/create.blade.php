@@ -33,8 +33,7 @@
 
             <div class="mb-4">
                 <label class="block mb-1">Nama Pengirim</label>
-                <input type="text" name="nama_pengirim" class="w-full border p-2 rounded" value="{{ old('nama_pengirim') }}"
-                    required>
+                <textarea name="nama_pengirim" class="w-full border p-2 rounded" required>{{ old('nama_pengirim') }}</textarea>
             </div>
 
             <div class="mb-4">

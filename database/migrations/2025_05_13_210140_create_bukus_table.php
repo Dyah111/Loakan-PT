@@ -12,8 +12,8 @@ return new class extends Migration {
             $table->string('judul');
             $table->string('penulis');
             $table->text('deskripsi');
-            $table->string('gambar')->nullable();
             $table->string('nama_pengirim');
+            $table->string('gambar')->nullable();
             $table->string('telepon');
             $table->unsignedBigInteger('user_id')->nullable(); // Menambahkan kolom user_id
             $table->timestamps();

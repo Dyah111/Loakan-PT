@@ -11,7 +11,7 @@ class Elektronik extends Model
     protected $table = 'elektroniks';
 
     protected $fillable = [
-        'judul', 'deskripsi', 'gambar', 'nama_pengirim', 'telepon', 'user_id'
+        'judul', 'deskripsi','nama_pengirim', 'gambar', 'telepon', 'user_id'
     ];
     public function user()
     {

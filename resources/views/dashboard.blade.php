@@ -32,30 +32,28 @@
             <a href="{{ route('forum.index') }}"
                 class="px-4 border border-gray-400 py-2 hover:bg-gray-200 rounded-md text-center">Lainnya</a>
         </div>
-        @php
-            $forums = [
-                ['user' => 'Budi Santoso', 'time' => '2 jam yang lalu', 'message' => 'Saya punya beberapa pakaian bekas yang masih bagus. Ada yang berminat?', 'likes' => 15],
-                ['user' => 'Siti Rahayu', 'time' => '5 jam yang lalu', 'message' => 'Baru saja menemukan buku-buku lama di gudang. Masih dalam kondisi baik!', 'likes' => 10],
-                ['user' => 'Agus Wijaya', 'time' => '1 hari yang lalu', 'message' => 'Ada yang mencari laptop bekas? Saya punya beberapa yang masih berfungsi dengan baik.', 'likes' => 23],
-            ];
-        @endphp
 
-        @foreach($forums as $forum)
+        @forelse ($latestForums as $forum)
             <div class="bg-white rounded-lg p-6 shadow">
-                <div class="font-bold">{{ $forum['user'] }}</div>
-                <div class="text-sm text-gray-500">{{ $forum['time'] }}</div>
-                <p class="mt-2">{{ $forum['message'] }}</p>
-                <div class="mt-2 text-gray-500 flex items-center">
-                    <span class="mr-1">❤️</span> {{ $forum['likes'] }}
+                <div class="font-bold">
+                    <a href="{{ route('forum.showProfile', ['id' => $forum->user->id]) }}"
+                        class="text-blue-600 hover:underline">
+                        {{ $forum->user->name }}
+                    </a>
                 </div>
+                <div class="text-sm text-gray-500">{{ $forum->created_at->diffForHumans() }}</div>
+                <p class="mt-2">{{ $forum->message }}</p>
             </div>
-        @endforeach
+        @empty
+            <p class="text-gray-600">Belum ada postingan forum.</p>
+        @endforelse
     </div>
+
 
     <!-- Barang Loakan -->
     <h2 class="text-2xl font-bold mb-4 text-[#caa46c]">Barang Loakan</h2>
     <div class="flex gap-6 overflow-x-auto p-2 mb-10">
-        @foreach($list as $item)
+        @forelse($list as $item)
             <div class="bg-white rounded shadow p-4 flex-shrink-0 w-64">
                 <img src="{{ $item['gambar'] }}" alt="{{ $item['judul'] }}" class="h-40 w-full object-cover rounded mb-2">
                 <h2 class="text-lg font-semibold mb-1">{{ $item['judul'] }}</h2>
@@ -63,6 +61,7 @@
                     <p class="text-sm text-gray-600 mb-1">Penulis: {{ $item['penulis'] }}</p>
                 @endif
                 <p class="text-sm text-gray-600 mb-2">Pengirim: {{ $item['nama_pengirim'] }}</p>
+
                 @if ($item['category'] == 'buku')
                     <a href="{{ route('buku.detail', ['id' => $item['id']]) }}"
                         class="mt-auto bg-[#f5a25d] text-white px-4 py-2 rounded hover:bg-[#e58a3f]">
@@ -95,7 +94,12 @@
                     </a>
                 @endif
             </div>
-        @endforeach
+        @empty
+            <div class="text-center w-full text-gray-500 mt-8">
+                Belum ada data yang tersedia.
+            </div>
+        @endforelse
+
 
     </div>
 @endsection

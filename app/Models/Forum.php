@@ -15,4 +15,15 @@ class Forum extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function likedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'forum_likes')->withTimestamps();
+    }
+
+    public function isLikedBy($user)
+    {
+        return $this->likedByUsers()->where('user_id', $user->id)->exists();
+    }
+
 }

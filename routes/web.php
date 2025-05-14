@@ -125,6 +125,13 @@ Route::post('/forum', [ForumController::class, 'store'])
 // Delete Forum
 Route::delete('/forum/{id}', [ForumController::class, 'destroy'])
     ->name('forum.destroy');
+//profile forum
+Route::get('/forum/{id}', [ProfileController::class, 'show'])   
+    ->middleware(['auth', 'verified'])->name('forum.showProfile');
+// Route untuk mendapatkan forum like
+Route::post('/forum/{id}/like', [ForumController::class, 'like'])
+    ->middleware(['auth', 'verified'])->name('forum.like');
+
 
 
 Route::middleware('auth')->group(function () {

@@ -29,8 +29,28 @@ class ForumController extends Controller
     public function destroy($id)
     {
         $forum = Forum::findOrFail($id);
-        
+
         $forum->delete();
         return redirect()->route('forum.index')->with('success', 'Postingan berhasil dihapus.');
     }
+
+    public function getLatestForums()
+    {
+        $forums = Forum::with('user')->latest()->take(5)->get(); // ambil 5 forum terbaru
+        return $forums;
+    }
+
+    public function like($id)
+    {
+        $forum = Forum::findOrFail($id);
+        $user = auth()->user();
+
+        // Cegah like dobel
+        if (!$forum->isLikedBy($user)) {
+            $forum->likedByUsers()->attach($user->id);
+        }
+
+        return redirect()->back();
+    }
+
 }

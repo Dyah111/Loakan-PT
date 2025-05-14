@@ -32,14 +32,14 @@
             </div>
 
             <div class="mb-4">
-                <label class="block mb-1">URL Gambar</label>
-                <input type="url" name="gambar" class="w-full border p-2 rounded" value="{{ old('gambar') }}">
+                <label class="block mb-1">Nama Pengirim</label>
+                <textarea name="nama_pengirim" class="w-full border p-2 rounded"
+                    required>{{ old('nama_pengirim') }}</textarea>
             </div>
 
             <div class="mb-4">
-                <label class="block mb-1">Nama Pengirim</label>
-                <input type="text" name="nama_pengirim" class="w-full border p-2 rounded" value="{{ old('nama_pengirim') }}"
-                    required>
+                <label class="block mb-1">URL Gambar</label>
+                <input type="url" name="gambar" class="w-full border p-2 rounded" value="{{ old('gambar') }}">
             </div>
 
             <div class="mb-4">

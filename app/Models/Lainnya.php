@@ -13,8 +13,8 @@ class Lainnya extends Model
     protected $fillable = [
         'judul', 
         'deskripsi', 
-        'gambar', 
-        'nama_pengirim', 
+        'gambar',
+        'nama_pengirim',
         'telepon', 
         'user_id'
     ];
