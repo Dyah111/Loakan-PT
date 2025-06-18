@@ -17,7 +17,7 @@
         </form>
 
         <a href="{{ route('elektronik.create') }}" class="mb-4 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-            + Tambah Buku
+            + Tambah Elektronik
         </a>
 
         <!-- Daftar Barang Lainnya dalam Grid -->
